@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operating Systems Concepts - Comprehensive MCQ Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 30px;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .quiz-content {
+            padding: 30px;
+        }
+
+        .question-card {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .question-card.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question-number {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: grid;
+            gap: 15px;
+        }
+
+        .option {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 18px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: #edf2f7;
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            border-color: #667eea;
+            background: #edf2f7;
+        }
+
+        .option.correct {
+            border-color: #48bb78;
+            background: #f0fff4;
+        }
+
+        .option.incorrect {
+            border-color: #f56565;
+            background: #fff5f5;
+        }
+
+        .option.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .option-label {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .option.correct .option-label {
+            background: #48bb78;
+        }
+
+        .option.incorrect .option-label {
+            background: #f56565;
+        }
+
+        .explanation {
+            display: none;
+            margin-top: 25px;
+            padding: 20px;
+            background: #fef5e7;
+            border-left: 4px solid #f39c12;
+            border-radius: 8px;
+            direction: rtl;
+            text-align: right;
+            font-size: 16px;
+            line-height: 1.8;
+            color: #2d3748;
+        }
+
+        .explanation.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .explanation-title {
+            font-weight: bold;
+            color: #f39c12;
+            margin-bottom: 10px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #2d3748;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e0;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .result-screen {
+            display: none;
+            text-align: center;
+            padding: 50px 30px;
+        }
+
+        .result-screen.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result-score {
+            font-size: 72px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 20px 0;
+        }
+
+        .result-message {
+            font-size: 24px;
+            color: #2d3748;
+            margin: 20px 0;
+        }
+
+        .result-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .result-card {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .result-card-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #667eea;
+            margin-top: 10px;
+        }
+
+        .result-card-label {
+            font-size: 14px;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .result-card.correct .result-card-value {
+            color: #48bb78;
+        }
+
+        .result-card.incorrect .result-card-value {
+            color: #f56565;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .question-text {
+                font-size: 18px;
+            }
+
+            .result-score {
+                font-size: 56px;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.2);
+        }
+
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .footer-text {
+            font-size: 14px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-link {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .footer-link:hover {
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Operating Systems </h1>
+            <p> MCQ Test - 70 Questions</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+
+        <div class="quiz-content" id="quizContent">
+            <!-- Questions will be rendered here -->
+        </div>
+
+        <div class="result-screen" id="resultScreen">
+            <div class="result-score" id="resultScore">0%</div>
+            <div class="result-message" id="resultMessage"></div>
+            
+            <div class="result-details">
+                <div class="result-card correct">
+                    <div class="result-card-label">Correct</div>
+                    <div class="result-card-value" id="correctCount">0</div>
+                </div>
+                <div class="result-card incorrect">
+                    <div class="result-card-label">Incorrect</div>
+                    <div class="result-card-value" id="incorrectCount">0</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-card-label">Total</div>
+                    <div class="result-card-value" id="totalCount">0</div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="restartQuiz()">Try Again</button>
+        </div>
+    </div>
+  <div class="footer">
+        <div class="footer-content">
+            <div class="footer-text">By Sajad Oday</div>
+            <div class="footer-links">
+                <a href="https://T.me/sjied" target="_blank" class="footer-link">
+                     Telegram
+                </a>
+                <a href="https://instagram.com/5r_r1" target="_blank" class="footer-link">
+                     Instagram
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "What is the role of a device controller?",
+                options: [
+                    "To execute user application code",
+                    "To manage the cache memory",
+                    "To move data between peripheral devices and its local buffer storage",
+                    "To compile the operating system kernel"
+                ],
+                correct: 2,
+                explanation: "وظيفة متحكم الجهاز هي نقل البيانات بين الأجهزة الخارجية (مثل الهارد أو الماوس) وبين ذاكرة التخزين المؤقت الخاصة به (Buffer)."
+            },
+            {
+                question: "Which of the following is an example of tertiary storage?",
+                options: [
+                    "Cache memory",
+                    "Main memory (RAM)",
+                    "Solid-state disk (SSD)",
+                    "Magnetic tape"
+                ],
+                correct: 3,
+                explanation: "التخزين الثالثي (Tertiary) هو تخزين بطيء ويستخدم للأرشفة، وأشهر مثال عليه هو الأشرطة المغناطيسية."
+            },
+            {
+                question: "What is the main purpose of virtualization?",
+                options: [
+                    "To replace the need for an operating system",
+                    "To allow operating systems to run applications within other OSes",
+                    "To increase the clock speed of the CPU",
+                    "To eliminate the need for device drivers"
+                ],
+                correct: 1,
+                explanation: "المحاكاة الافتراضية (Virtualization) تسمح بتشغيل أنظمة تشغيل متعددة (مثل لينكس داخل ويندوز) كأنها أجهزة افتراضية."
+            },
+            {
+                question: "What is the purpose of the medium-term scheduler?",
+                options: [
+                    "To control the degree of multiprogramming by swapping processes in and out of memory",
+                    "To select which process should be executed next",
+                    "To manage interprocess communication",
+                    "To handle process termination"
+                ],
+                correct: 0,
+                explanation: "المجدول متوسط المدى وظيفته تقليل عدد البرامج في الذاكرة عبر عملية الـ Swapping لإخلاء مساحة."
+            },
+            {
+                question: "Which method of passing parameters to the operating system involves storing parameters in a block in memory and passing the block's address in a register?",
+                options: [
+                    "Passing parameters in registers",
+                    "Stack method",
+                    "Block or table method",
+                    "Direct memory access (DMA)"
+                ],
+                correct: 2,
+                explanation: "عند تمرير بيانات كثيرة لنظام التشغيل، يتم وضعها في \"بلوك\" بالذاكرة ويمرر عنوان هذا البلوك فقط في السجل (Register)."
+            },
+            {
+                question: "What is the bootstrap program responsible for?",
+                options: [
+                    "Managing file systems",
+                    "Handling user input",
+                    "Locating the kernel, loading it into memory, and starting its execution",
+                    "Allocating memory to processes"
+                ],
+                correct: 2,
+                explanation: "برنامج الـ Bootstrap هو أول كود يعمل عند تشغيل الحاسوب، ومهمته إيجاد نواة النظام (Kernel) وتحميلها للذاكرة."
+            },
+            {
+                question: "What is the kernel of an operating system?",
+                options: [
+                    "A system program that compiles code",
+                    "The program running at all times on the computer",
+                    "A middleware service for databases",
+                    "A user application for file management"
+                ],
+                correct: 1,
+                explanation: "النواة (Kernel) هي الجزء الأساسي من نظام التشغيل الذي يبقى يعمل باستمرار في الخلفية منذ التشغيل حتى الإيقاف."
+            },
+            {
+                question: "Which system call is used in UNIX to create a new process?",
+                options: [
+                    "exec()",
+                    "wait()",
+                    "fork()",
+                    "exit()"
+                ],
+                correct: 2,
+                explanation: "في أنظمة يونكس، نستخدم الأمر fork() لإنشاء عملية جديدة مطابقة للعملية الأصلية."
+            },
+            {
+                question: "Which of the following is NOT listed as an advantage of process cooperation?",
+                options: [
+                    "Information sharing",
+                    "Computation speed-up",
+                    "Increased security",
+                    "Modularity"
+                ],
+                correct: 2,
+                explanation: "تعاون العمليات يزيد السرعة ومشاركة المعلومات، لكنه لا يزيد الأمان بل قد يجعله أصعب بسبب التداخل."
+            },
+            {
+                question: "What is the role of the Command-Line Interface (CLI)?",
+                options: [
+                    "To provide a graphical desktop environment",
+                    "To allow direct command entry by the user",
+                    "To manage file system permissions",
+                    "To handle network communications"
+                ],
+                correct: 1,
+                explanation: "الـ CLI هو واجهة الأوامر النصية التي تسمح للمستخدم بكتابة الأوامر مباشرة بدلاً من استخدام الماوس والأيقونات."
+            },
+            {
+                question: "Which of the following is NOT a typical operating system service for user convenience?",
+                options: [
+                    "Program execution",
+                    "I/O operations",
+                    "Resource allocation",
+                    "File-system manipulation"
+                ],
+                correct: 2,
+                explanation: "\"تخصيص الموارد\" هو خدمة لتحسين كفاءة النظام وليس ميزة لرفاهية المستخدم مباشرة كالتعامل مع الملفات أو تشغيل البرامج."
+            },
+            {
+                question: "Which operating system structure has a minimal kernel with most services in user space?",
+                options: [
+                    "Monolithic",
+                    "Layered",
+                    "Microkernel",
+                    "Hybrid"
+                ],
+                correct: 2,
+                explanation: "الـ Microkernel هو تصميم يعتمد على جعل النواة صغيرة جداً ونقل أغلب الخدمات إلى مساحة المستخدم (User Space)."
+            },
+            {
+                question: "What is the main advantage of symmetric multiprocessing (SMP)?",
+                options: [
+                    "Each processor is assigned a specific task",
+                    "One processor acts as a hot-standby",
+                    "Each processor performs all tasks, and they monitor each other",
+                    "Processors cannot share memory"
+                ],
+                correct: 2,
+                explanation: "في الـ SMP، كل المعالجات متساوية وتستطيع القيام بجميع المهام، مما يزيد من سرعة وكفاءة النظام."
+            },
+            {
+                question: "What does Infrastructure as a Service (IaaS) provide?",
+                options: [
+                    "One or more applications available via the Internet",
+                    "A software stack ready for application use",
+                    "Servers or storage available over the Internet",
+                    "Only database services"
+                ],
+                correct: 2,
+                explanation: "الـ IaaS يوفر موارد البنية التحتية الأساسية مثل السيرفرات والتخزين عبر الإنترنت."
+            },
+            {
+                question: "What is the role of an Interrupt Service Routine (ISR)?",
+                options: [
+                    "To permanently stop the CPU from processing",
+                    "To increase the clock speed of the CPU",
+                    "To handle a specific interrupt by pausing the current process and later resuming it",
+                    "To manage only memory allocation"
+                ],
+                correct: 2,
+                explanation: "الـ ISR هو كود مخصص يتعامل مع \"المقاطعة (Interrupt)\"، حيث يوقف البرنامج الحالي مؤقتاً لينفذ مهمة المقاطعة ثم يعود."
+            },
+            {
+                question: "Which operating system structure has all services in one large kernel?",
+                options: [
+                    "Layered",
+                    "Microkernel",
+                    "Modular",
+                    "Monolithic"
+                ],
+                correct: 3,
+                explanation: "الهيكل الـ Monolithic (المتراص) يضع كل خدمات النظام داخل النواة في كتلة واحدة كبيرة."
+            },
+            {
+                question: "Which storage management activity involves keeping track of which parts of memory are currently being used and by whom?",
+                options: [
+                    "File-system management",
+                    "Mass-storage management",
+                    "Memory management",
+                    "Cache management"
+                ],
+                correct: 2,
+                explanation: "إدارة الذاكرة (Memory Management) هي المسؤولة عن تتبع الأجزاء المشغولة والفارغة من الـ RAM."
+            },
+            {
+                question: "Which system call type handles reading from and writing into device buffers?",
+                options: [
+                    "File Management",
+                    "Device Management",
+                    "Information Maintenance",
+                    "Communication"
+                ],
+                correct: 1,
+                explanation: "التعامل مع الـ buffers الخاصة بالأجهزة يقع تحت فئة \"إدارة الأجهزة (Device Management)\"."
+            },
+            {
+                question: "What is the purpose of dual-mode operation (user mode and kernel mode)?",
+                options: [
+                    "To increase the clock speed of the CPU",
+                    "To allow the operating system to protect itself and other system components",
+                    "To enable multitasking",
+                    "To manage cache memory"
+                ],
+                correct: 1,
+                explanation: "وضع التشغيل المزدوج يحمي النظام بمنع المستخدم العادي من الوصول المباشر لعتاد الحاسوب إلا عبر النواة."
+            },
+            {
+                question: "What is the function of the bootstrapping program?",
+                options: [
+                    "To compile user programs",
+                    "To initialize the system and load the operating system kernel",
+                    "To manage the interrupt vector table",
+                    "To provide a user interface"
+                ],
+                correct: 1,
+                explanation: "(مكرر للتأكيد) وظيفته تهيئة العتاد وتحميل نواة النظام عند التشغيل."
+            },
+            {
+                question: "Which of the following is an example of a Peer-to-Peer (P2P) system mentioned in the text?",
+                options: [
+                    "VMware",
+                    "Amazon EC2",
+                    "Skype",
+                    "Windows XP"
+                ],
+                correct: 2,
+                explanation: "سكايب (في بداياته) كان يعتمد على نظام P2P للتواصل المباشر بين المستخدمين دون سيرفر وسيط."
+            },
+            {
+                question: "Which type of I/O allows control to return to the user program immediately without waiting for the I/O operation to complete?",
+                options: [
+                    "Synchronous I/O",
+                    "Direct Memory Access (DMA)",
+                    "Asynchronous I/O",
+                    "Programmed I/O"
+                ],
+                correct: 2,
+                explanation: "في الإدخال/الإخراج غير المتزامن (Asynchronous)، يكمل البرنامج عمله ولا ينتظر انتهاء عملية النقل."
+            },
+            {
+                question: "Which segment of a process contains global variables?",
+                options: [
+                    "Text section",
+                    "Data section",
+                    "Heap",
+                    "Stack"
+                ],
+                correct: 1,
+                explanation: "المتغيرات العامة (Global Variables) تُخزن في قسم البيانات (Data Section) الخاص بالعملية."
+            },
+            {
+                question: "Which system call would a program use to pause its execution for a specified time?",
+                options: [
+                    "wait()",
+                    "signal()",
+                    "sleep()",
+                    "kill()"
+                ],
+                correct: 2,
+                explanation: "الأمر sleep() يجعل البرنامج يتوقف عن العمل لفترة زمنية محددة."
+            },
+            {
+                question: "How does Direct Memory Access (DMA) improve I/O performance?",
+                options: [
+                    "It generates one interrupt per byte transferred",
+                    "It transfers data directly between device and memory without CPU intervention for each byte",
+                    "It uses the CPU to manually copy each byte",
+                    "It disables interrupts during I/O operations"
+                ],
+                correct: 1,
+                explanation: "الـ DMA يسمح بنقل البيانات من الأجهزة للذاكرة مباشرة دون إشغال المعالج بكل \"بايت\" يتم نقله."
+            },
+            {
+                question: "What is the key characteristic of a Peer-to-Peer (P2P) computing system?",
+                options: [
+                    "There is a central server",
+                    "All nodes are considered peers and can act as both clients and servers",
+                    "Only one node can act as a server at any given time",
+                    "Nodes cannot communicate directly with each other"
+                ],
+                correct: 1,
+                explanation: "في نظام الند للند (P2P)، كل جهاز هو خادم وعميل في نفس الوقت، ولا يوجد سيرفر مركزي."
+            },
+            {
+                question: "Which type of system call is responsible for process creation and termination?",
+                options: [
+                    "File Management",
+                    "Device Management",
+                    "Process Control",
+                    "Communication"
+                ],
+                correct: 2,
+                explanation: "إنشاء وإنهاء العمليات يقع تحت بند \"التحكم بالعمليات (Process Control)\"."
+            },
+            {
+                question: "What is a process?",
+                options: [
+                    "A program stored on disk",
+                    "A program in execution",
+                    "A passive entity",
+                    "A thread within a program"
+                ],
+                correct: 1,
+                explanation: "البرنامج هو كيان خامل على القرص، لكن عندما يبدأ بالعمل يسمى \"عملية (Process)\"."
+            },
+            {
+                question: "Which memory type uses flip-flops to store each bit, is faster, but more expensive and consumes more power?",
+                options: [
+                    "Dynamic RAM (DRAM)",
+                    "Static RAM (SRAM)",
+                    "Flash memory",
+                    "NVRAM"
+                ],
+                correct: 1,
+                explanation: "الـ SRAM (المستخدمة في الكاش) أسرع وأغلى وتعتمد على الـ Flip-flops."
+            },
+            {
+                question: "What is the purpose of a timer in an operating system?",
+                options: [
+                    "To increase CPU speed",
+                    "To prevent infinite loops and process hogging of resources",
+                    "To manage cache coherency",
+                    "To handle deadlocks"
+                ],
+                correct: 1,
+                explanation: "المؤقت (Timer) يضمن عدم استحواذ برنامج واحد على المعالج للأبد ويمنع الحلقات اللانهائية."
+            },
+            {
+                question: "What is a zombie process?",
+                options: [
+                    "A process currently running",
+                    "A process that has terminated but whose parent has not yet called wait()",
+                    "A process that is waiting for I/O",
+                    "A process that has been swapped out of memory"
+                ],
+                correct: 1,
+                explanation: "العملية الزمبي هي التي انتهت، لكن نظام التشغيل يبقي سجلها لأن الأب لم يقرأ حالة انتهائها بعد."
+            },
+            {
+                question: "Where was the graphical user interface (GUI) metaphor with icons and folders invented?",
+                options: [
+                    "Microsoft Corporation",
+                    "Apple Inc.",
+                    "Xerox PARC",
+                    "IBM"
+                ],
+                correct: 2,
+                explanation: "مختبرات Xerox PARC هي المكان الحقيقي الذي اختُرعت فيه فكرة واجهة المستخدم الرسومية والماوس."
+            },
+            {
+                question: "Which scheduling queue contains all processes residing in main memory that are ready and waiting to execute?",
+                options: [
+                    "Job queue",
+                    "Ready queue",
+                    "Device queue",
+                    "Wait queue"
+                ],
+                correct: 1,
+                explanation: "\"طابور الجاهزية (Ready Queue)\" يحتوي على كل العمليات المستعدة للتنفيذ وتنتظر دورها في المعالج."
+            },
+            {
+                question: "What is the role of a Virtual Machine Manager (VMM)?",
+                options: [
+                    "To compile source code",
+                    "To provide virtualization services",
+                    "To manage physical memory only",
+                    "To replace the host operating system"
+                ],
+                correct: 1,
+                explanation: "VMM هو البرنامج الذي يدير وينشئ الأجهزة الافتراضية."
+            },
+            {
+                question: "Which of the following is one of the three most common Application Programming Interfaces (APIs) mentioned in the text?",
+                options: [
+                    "Linux API",
+                    "macOS API",
+                    "POSIX API",
+                    "Android API"
+                ],
+                correct: 2,
+                explanation: "POSIX API هو أحد أشهر واجهات البرمجة المستخدمة في الأنظمة."
+            },
+            {
+                question: "What is the main difference between open-source operating systems and closed-source operating systems?",
+                options: [
+                    "Open-source OSes are only available for free",
+                    "Open-source OSes are made available in source-code format",
+                    "Closed-source OSes cannot run applications",
+                    "Open-source OSes do not have kernels"
+                ],
+                correct: 1,
+                explanation: "الفرق الجوهري ليس السعر، بل أن الأنظمة المفتوحة توفر \"الكود المصدري (Source Code)\" للجميع لرؤيته وتعديله."
+            },
+            {
+                question: "What is the primary difference between independent processes and cooperating processes?",
+                options: [
+                    "Independent processes share data, while cooperating processes do not",
+                    "Cooperating processes can affect or be affected by other processes, while independent processes cannot",
+                    "Independent processes run faster than cooperating processes",
+                    "Cooperating processes cannot share resources"
+                ],
+                correct: 1,
+                explanation: "العملية المستقلة لا تتأثر بغيرها، أما المتعاونة فهي تؤثر وتتأثر بالعمليات الأخرى وتتشارك البيانات."
+            },
+            {
+                question: "Which system call is used to create a new process by duplicating the current process?",
+                options: [
+                    "exec()",
+                    "fork()",
+                    "clone()",
+                    "exit()"
+                ],
+                correct: 1,
+                explanation: "(مكرر) الـ fork يقوم بنسخ العملية الحالية لإنشاء عملية ابن جديدة."
+            },
+            {
+                question: "What is the purpose of the ptrace() system call?",
+                options: [
+                    "To allocate memory",
+                    "To terminate a process",
+                    "To allow debugging and monitoring of another process",
+                    "To handle file I/O"
+                ],
+                correct: 2,
+                explanation: "يُستخدم ptrace() بشكل أساسي في أدوات التنقيح (Debugging) لمراقبة والتحكم في سير عملية أخرى."
+            },
+            {
+                question: "What is the difference between a program and a process?",
+                options: [
+                    "A program is active, a process is passive",
+                    "A program is passive, a process is active",
+                    "There is no difference",
+                    "A program uses threads, a process does not"
+                ],
+                correct: 1,
+                explanation: "البرنامج \"جماد\" مخزن، والعملية \"كائن حي\" يعمل في الذاكرة."
+            },
+            {
+                question: "Which storage device is volatile, meaning it loses its contents when power is turned off?",
+                options: [
+                    "Hard disk",
+                    "SSD",
+                    "Main memory (RAM)",
+                    "Magnetic tape"
+                ],
+                correct: 2,
+                explanation: "الـ RAM ذاكرة \"متطايرة\"، أي أن البيانات تُمحى منها فور انقطاع الكهرباء."
+            },
+            {
+                question: "What is the most common definition of the operating system kernel?",
+                options: [
+                    "Everything a vendor ships",
+                    "The program running at all times on the computer",
+                    "A collection of system programs and application programs",
+                    "The graphical user interface (GUI)"
+                ],
+                correct: 1,
+                explanation: "(مكرر) التعريف الأكاديمي للنواة هو البرنامج الذي يعمل طوال الوقت."
+            },
+            {
+                question: "Which system call does a parent process use to obtain status information and the PID of a terminated child process?",
+                options: [
+                    "fork()",
+                    "exec()",
+                    "exit()",
+                    "wait()"
+                ],
+                correct: 3,
+                explanation: "الأب يستخدم wait() لينتظر ابنه ويستلم منه تقرير الانتهاء."
+            },
+            {
+                question: "What is debugging in the context of operating systems?",
+                options: [
+                    "Installing the OS",
+                    "The activity of finding and fixing errors in a system",
+                    "Designing the user interface",
+                    "Allocating memory to processes"
+                ],
+                correct: 1,
+                explanation: "التنقيح (Debugging) هو عملية البحث عن الأخطاء (Bugs) وإصلاحها."
+            },
+            {
+                question: "Which of the following is NOT a typical component of a process in memory?",
+                options: [
+                    "Text section",
+                    "Heap",
+                    "Device driver",
+                    "Stack"
+                ],
+                correct: 2,
+                explanation: "العملية تتكون من (Text, Data, Heap, Stack). أما الـ Device Driver فهو جزء من النظام وليس جزءاً من العملية نفسها."
+            },
+            {
+                question: "How does the long-term scheduler (job scheduler) control the degree of multiprogramming?",
+                options: [
+                    "By selecting which process to execute next on the CPU",
+                    "By swapping processes in and out of memory",
+                    "By selecting which processes should be brought into the ready queue",
+                    "By terminating processes that exceed their time limit"
+                ],
+                correct: 2,
+                explanation: "المجدول طويل المدى يحدد أي من البرامج الموجودة في المخزن (Disk) يتم إدخالها للذاكرة لتبدأ العمل."
+            },
+            {
+                question: "What is a system call?",
+                options: [
+                    "A hardware interrupt",
+                    "A programming interface to the services provided by the OS",
+                    "A type of user application",
+                    "A file management technique"
+                ],
+                correct: 1,
+                explanation: "نداء النظام (System Call) هو \"البوابة\" التي تسمح للبرامج بطلب خدمات من نظام التشغيل."
+            },
+            {
+                question: "What information is stored in the Process Control Block (PCB)?",
+                options: [
+                    "Only the program code",
+                    "Process state, program counter, CPU registers, and memory management information",
+                    "Only the process ID",
+                    "Only the I/O status information"
+                ],
+                correct: 1,
+                explanation: "الـ PCB هو \"بطاقة تعريف\" العملية ويحتوي على كل تفاصيلها الفنية وحالتها."
+            },
+            {
+                question: "What is the role of the short-term scheduler (CPU scheduler)?",
+                options: [
+                    "To select which process should be brought into the ready queue",
+                    "To select which process should be executed next and allocate the CPU",
+                    "To remove processes from memory and store them on disk",
+                    "To manage I/O device queues"
+                ],
+                correct: 1,
+                explanation: "المجدول قصير المدى هو الذي يقرر \"الآن\" من من العمليات الجاهزة سيأخذ المعالج."
+            },
+            {
+                question: "What is an orphan process?",
+                options: [
+                    "A process that has terminated but its parent has not called wait()",
+                    "A process that is waiting for I/O",
+                    "A process whose parent has terminated without invoking wait()",
+                    "A process that has been swapped out of memory"
+                ],
+                correct: 2,
+                explanation: "العملية اليتيمة (Orphan) هي التي انتهى \"أبوها (Parent)\" وهي لا تزال تعمل."
+            },
+            {
+                question: "What is the primary difference between system programs and application programs?",
+                options: [
+                    "System programs are for user tasks...",
+                    "System programs manage and support the system, while application programs help users accomplish specific tasks",
+                    "There is no difference",
+                    "System programs are written in assembly, application programs in high-level languages"
+                ],
+                correct: 1,
+                explanation: "برامج النظام (مثل مدير الملفات) تخدم الكمبيوتر، بينما التطبيقات (مثل الوورد) تخدم رغبة المستخدم."
+            },
+            {
+                question: "In a typical process tree on a Linux system, what identifies and manages each process?",
+                options: [
+                    "Process name",
+                    "Process identifier (pid)",
+                    "User identifier (uid)",
+                    "File descriptor"
+                ],
+                correct: 1,
+                explanation: "كل عملية في لينكس لها رقم فريد يسمى PID."
+            },
+            {
+                question: "What are the two main models of Interprocess Communication (IPC) mentioned in the text?",
+                options: [
+                    "Pipes and sockets",
+                    "Shared memory and message passing",
+                    "Signals and semaphores",
+                    "Files and signals"
+                ],
+                correct: 1,
+                explanation: "الطريقتان الأساسيتان لتواصل العمليات هما: الذاكرة المشتركة (Shared Memory) وتبادل الرسائل (Message Passing)."
+            },
+            {
+                question: "How is the system call number typically used?",
+                options: [
+                    "To identify the user making the call",
+                    "To index into a table maintained by the system-call interface",
+                    "To allocate memory for the call",
+                    "To determine the priority of the call"
+                ],
+                correct: 1,
+                explanation: "كل \"نداء نظام\" له رقم، يستخدمه النظام للبحث في جدول خاص ليعرف أي وظيفة يجب تنفيذها."
+            },
+            {
+                question: "What is the process of configuring an operating system for a specific computer site called?",
+                options: [
+                    "Booting",
+                    "Debugging",
+                    "System generation (SYSGEN)",
+                    "Virtualization"
+                ],
+                correct: 2,
+                explanation: "الـ SYSGEN هي عملية تهيئة نظام التشغيل ليتناسب مع مواصفات عتاد جهاز معين."
+            },
+            {
+                question: "Which type of process spends more time doing I/O than computations and has many short CPU bursts?",
+                options: [
+                    "CPU-bound process",
+                    "I/O-bound process",
+                    "Real-time process",
+                    "Background process"
+                ],
+                correct: 1,
+                explanation: "العملية المقيدة بالإدخال/الإخراج (I/O-bound) تقضي أغلب وقتها في انتظار البيانات بدلاً من الحسابات."
+            },
+            {
+                question: "Which of the following best describes the primary goal of an operating system?",
+                options: [
+                    "To provide a platform for only gaming...",
+                    "To act as an intermediary between the user and the computer hardware",
+                    "To replace the need for application software",
+                    "To manage only the CPU and ignore other resources"
+                ],
+                correct: 1,
+                explanation: "الهدف الأساسي للنظام هو أن يكون \"وسيطاً\" يسهل على المستخدم استخدام العتاد المعقد."
+            },
+            {
+                question: "What happens during cascading termination?",
+                options: [
+                    "The parent process terminates before the child",
+                    "When a process terminates, all its children and grandchildren are also terminated",
+                    "To replace the need for application software",
+                    "To manage only the CPU and ignore other resources"
+                ],
+                correct: 1,
+                explanation: "\"الإنهاء المتسلسل\" يعني إذا أُغلق البرنامج الأصلي، تُغلق معه كل البرامج الفرعية التي فتحها تلقائياً."
+            },
+            {
+                question: "Which storage device is non-volatile, faster than hard disks, and becoming increasingly popular?",
+                options: [
+                    "DRAM",
+                    "SRAM",
+                    "Optical disk",
+                    "Solid-state disk (SSD)"
+                ],
+                correct: 3,
+                explanation: "الـ SSD أسرع بكثير من الهارد العادي ولا يفقد البيانات عند انقطاع الكهرباء."
+            },
+            {
+                question: "In the UNIX operating system, what is the purpose of the exec() system call?",
+                options: [
+                    "To create a new process",
+                    "To terminate the current process",
+                    "To replace the process's memory space with a new program",
+                    "To wait for a child process to terminate"
+                ],
+                correct: 2,
+                explanation: "الأمر exec() يستخدم لتحميل برنامج جديد تماماً داخل العملية الحالية ومسح الكود القديم."
+            },
+            {
+                question: "Which type of cloud computing is available via the Internet to anyone willing to pay?",
+                options: [
+                    "Private cloud",
+                    "Hybrid cloud",
+                    "Public cloud",
+                    "Community cloud"
+                ],
+                correct: 2,
+                explanation: "السحابة العامة (Public Cloud) هي المتاحة للجميع مثل Google Cloud أو AWS."
+            },
+            {
+                question: "Which of the following is NOT a typical component of a computer system according to the text?",
+                options: [
+                    "CPU, memory, I/O devices, and compiler",
+                    "Hardware, operating system, application programs, and users",
+                    "Kernel, shell, file system, and process manager",
+                    "Input, processing, output, and storage"
+                ],
+                correct: 0,
+                explanation: "المكونات الأربعة الأساسية هي (Hardware, OS, Apps, Users). الـ Compiler ليس مكوناً أساسياً للنظام بل هو برنامج تطبيق/نظام."
+            },
+            {
+                question: "What is a defining characteristic of a Real-Time Embedded System?",
+                options: [
+                    "It has no time constraints",
+                    "It has well-defined fixed time constraints that must be met",
+                    "It only runs on mainframe computers",
+                    "It cannot be used for critical applications"
+                ],
+                correct: 1,
+                explanation: "أنظمة الزمن الحقيقي تتميز بوجود قيود زمنية صارمة؛ إذا لم تنفذ المهمة في الوقت المحدد، فشل النظام."
+            },
+            {
+                question: "Which process state indicates that the process is currently being executed by the CPU?",
+                options: [
+                    "New",
+                    "Ready",
+                    "Running",
+                    "Waiting"
+                ],
+                correct: 2,
+                explanation: "حالة \"التشغيل (Running)\" تعني أن العملية الآن تحت معالجة الـ CPU."
+            },
+            {
+                question: "Which organization started the open-source movement with the GNU Public License (GPL)?",
+                options: [
+                    "Microsoft",
+                    "Apple",
+                    "Free Software Foundation (FSF)",
+                    "Berkeley Software Distribution (BSD)"
+                ],
+                correct: 2,
+                explanation: "مؤسسة البرمجيات الحرة (FSF) برئاسة ريتشارد ستالمان هي من بدأت حركة البرمجيات الحرة ورخصة GPL."
+            },
+            {
+                question: "What information is NOT typically determined by the SYSGEN program?",
+                options: [
+                    "What CPU is to be used",
+                    "How much memory is available",
+                    "What applications are installed",
+                    "What devices are available"
+                ],
+                correct: 2,
+                explanation: "الـ SYSGEN يهتم بالعتاد (CPU, Memory, Devices)، لكنه لا يهتم بالبرامج (التطبيقات) التي سيقوم المستخدم بتثبيتها لاحقاً."
+            },
+            {
+                question: "Where is the bootstrap program typically stored?",
+                options: [
+                    "On the hard disk",
+                    "In a cache memory",
+                    "In read-only memory (ROM)",
+                    "On a USB drive"
+                ],
+                correct: 2,
+                explanation: "برنامج الإقلاع الأول (Bootstrap) يجب أن يكون في ذاكرة ثابتة لا تُمحى (ROM/EEPROM) ليتمكن الحاسوب من قراءته فور التشغيل."
+            },
+            {
+                question: "What is Digital Rights Management (DRM) used for?",
+                options: [
+                    "To increase speed",
+                    "To control and manage access to copyrighted material",
+                    "To replace the operating system",
+                    "To manage network traffic only"
+                ],
+                correct: 1,
+                explanation: "الـ DRM هي تقنية لحماية حقوق النشر ومنع القرصنة أو النسخ غير القانوني للمحتوى الرقمي."
+            },
+            {
+                question: "Which type of interrupt is generated by software, often due to an error or a user request?",
+                options: [
+                    "Hardware interrupt",
+                    "Maskable interrupt",
+                    "Trap or exception",
+                    "Non-maskable interrupt"
+                ],
+                correct: 2,
+                explanation: "المقاطعة البرمجية الناتجة عن خطأ (مثل القسمة على صفر) تسمى Trap أو Exception."
+            },
+            {
+                question: "What are the four main components of a computer system according to the text?",
+                options: [
+                    "CPU, memory, I/O devices, and compiler",
+                    "Hardware, operating system, application programs, and users",
+                    "Kernel, shell, file system, and process manager",
+                    "Input, processing, output, and storage"
+                ],
+                correct: 1,
+                explanation: "هذا هو التقسيم الكلاسيكي لأي نظام حاسوبي: العتاد، النظام، التطبيقات، والمستخدم."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let correctAnswers = 0;
+        let userAnswers = [];
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function initQuiz() {
+            const shuffledQuestions = shuffleArray(questions);
+            questions.length = 0;
+            questions.push(...shuffledQuestions);
+            renderQuestion(questions[currentQuestion]);
+            updateProgress();
+        }
+
+        function renderQuestion(question) {
+            const quizContent = document.getElementById('quizContent');
+            const optionLabels = ['A', 'B', 'C', 'D'];
+            
+            quizContent.innerHTML = `
+                <div class="question-card active">
+                    <div class="question-number">Question ${currentQuestion + 1} of ${questions.length}</div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="options">
+                        ${question.options.map((option, index) => `
+                            <div class="option" onclick="selectOption(${index})">
+                                <span class="option-label">${optionLabels[index]}</span>
+                                <span class="option-text">${option}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="explanation" id="explanation">
+                        <div class="explanation-title">التفسير:</div>
+                        <div>${question.explanation}</div>
+                    </div>
+                    <div class="navigation">
+                        ${currentQuestion > 0 ? '<button class="btn btn-secondary" onclick="previousQuestion()">Previous</button>' : '<div></div>'}
+                        <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" disabled>
+                            ${currentQuestion === questions.length - 1 ? 'Finish' : 'Next'}
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectOption(index) {
+            const options = document.querySelectorAll('.option');
+            const question = questions[currentQuestion];
+            const nextBtn = document.getElementById('nextBtn');
+            const explanation = document.getElementById('explanation');
+
+            // Disable all options after selection
+            options.forEach(opt => opt.classList.add('disabled'));
+
+            // Mark selected option
+            options[index].classList.add('selected');
+
+            // Show correct/incorrect
+            if (index === question.correct) {
+                options[index].classList.add('correct');
+                correctAnswers++;
+            } else {
+                options[index].classList.add('incorrect');
+                options[question.correct].classList.add('correct');
+            }
+
+            // Show explanation
+            explanation.classList.add('show');
+
+            // Enable next button
+            nextBtn.disabled = false;
+
+            // Store answer
+            userAnswers[currentQuestion] = index;
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                renderQuestion(questions[currentQuestion]);
+                updateProgress();
+            } else {
+                showResults();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestion(questions[currentQuestion]);
+                updateProgress();
+                
+                // If question was already answered, show the previous answer
+                if (userAnswers[currentQuestion] !== undefined) {
+                    selectOption(userAnswers[currentQuestion]);
+                }
+            }
+        }
+
+        function updateProgress() {
+            const progressBar = document.getElementById('progressBar');
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        function showResults() {
+            const quizContent = document.getElementById('quizContent');
+            const resultScreen = document.getElementById('resultScreen');
+            const percentage = Math.round((correctAnswers / questions.length) * 100);
+
+            quizContent.style.display = 'none';
+            resultScreen.classList.add('show');
+
+            document.getElementById('resultScore').textContent = percentage + '%';
+            document.getElementById('correctCount').textContent = correctAnswers;
+            document.getElementById('incorrectCount').textContent = questions.length - correctAnswers;
+            document.getElementById('totalCount').textContent = questions.length;
+
+            let message = '';
+            if (percentage >= 90) {
+                message = 'Outstanding! Excellent work! 🌟';
+            } else if (percentage >= 80) {
+                message = 'Great job! Very good performance! 👏';
+            } else if (percentage >= 70) {
+                message = 'Good work! Keep it up! 👍';
+            } else if (percentage >= 60) {
+                message = 'Not bad! Room for improvement! 📚';
+            } else {
+                message = 'Keep studying! You can do better! 💪';
+            }
+
+            document.getElementById('resultMessage').textContent = message;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            correctAnswers = 0;
+            userAnswers = [];
+            
+            const quizContent = document.getElementById('quizContent');
+            const resultScreen = document.getElementById('resultScreen');
+            
+            resultScreen.classList.remove('show');
+            quizContent.style.display = 'block';
+            
+            initQuiz();
+        }
+
+        // Initialize quiz on page load
+        window.onload = initQuiz;
+    </script>
+</body>
+</html>
